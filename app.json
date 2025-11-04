@@ -15,10 +15,14 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.darkreader.app",
+      "buildNumber": "1",
       "infoPlist": {
         "UISupportsDocumentBrowser": true,
         "UIFileSharingEnabled": true,
-        "LSSupportsOpeningDocumentsInPlace": true
+        "LSSupportsOpeningDocumentsInPlace": true,
+        "NSDocumentsFolderUsageDescription": "DarkReader needs access to your documents to import books",
+        "NSPhotoLibraryUsageDescription": "DarkReader needs access to your photos to import image-based books",
+        "ITSAppUsesNonExemptEncryption": false
       }
     },
     "android": {
@@ -31,6 +35,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "0ff8526d-07e5-4020-a2a3-6c57f0f38a3a"
+      }
+    },
+    "owner": "cohn"
   }
 }

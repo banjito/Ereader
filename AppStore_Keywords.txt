@@ -1,0 +1,37 @@
+KEYWORDS (Max 100 characters total, comma-separated)
+=========================================
+
+ereader,pdf,epub,books,reading,reader,dark mode,text,documents,comics,cbz,library,study,novel
+
+
+KEYWORD ANALYSIS:
+=========================================
+
+Primary Keywords (High Priority):
+- ereader
+- pdf reader
+- epub reader
+- books
+- reading
+
+Secondary Keywords (Medium Priority):
+- dark mode
+- text reader
+- document reader
+- book reader
+- comics
+
+Long-tail Keywords:
+- pdf ereader
+- epub viewer
+- dark mode reader
+- comic book reader
+- text file reader
+
+TIPS:
+- Use lowercase only (Apple converts automatically)
+- No spaces within compound words (use "ereader" not "e reader")
+- Don't repeat words from your app name/subtitle
+- Focus on how users search, not marketing terms
+- Each keyword separated by comma with no spaces
+

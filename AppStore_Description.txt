@@ -1,0 +1,58 @@
+APP NAME: DarkReader
+
+SUBTITLE (Max 30 characters):
+Minimalist Dark Mode E-Reader
+
+DESCRIPTION:
+=========================================
+
+DarkReader - A Minimalist Dark Mode E-Reader for iOS
+
+Read your favorite books in a beautiful dark interface designed for comfortable reading. DarkReader is a simple, elegant e-reader that supports multiple file formats and gets out of your way so you can focus on what matters: reading.
+
+FEATURES:
+
+📚 Multiple Format Support
+• PDF - Portable Document Format with page-by-page navigation
+• EPUB - Electronic books with adjustable text
+• TXT - Plain text files
+• CBZ/ZIP - Comic book archives
+• Images - JPG, PNG, GIF, WebP
+
+📖 Designed for Reading
+• Page-by-page navigation with simple tap controls
+• Tap right side to turn forward, left to go back
+• Tap center to access controls
+• Automatic chapter detection and formatting
+• Adjustable font sizes for comfortable reading
+
+🌙 Beautiful Dark Theme
+• Easy on your eyes in any lighting
+• Black, white, and gray color scheme
+• Consistent dark interface throughout
+• Perfect for nighttime reading
+
+📊 Smart Progress Tracking
+• Automatically saves your reading position
+• Resume exactly where you left off
+• Visual progress bars in your library
+• Track multiple books simultaneously
+
+✨ Clean & Simple
+• No ads or distractions
+• No account required
+• No data collection or tracking
+• Fast and lightweight
+• Intuitive interface
+
+PERFECT FOR:
+• Book lovers who want a clean reading experience
+• Students reading textbooks and PDFs
+• Comic book enthusiasts
+• Anyone who prefers dark mode interfaces
+• Readers who value simplicity and privacy
+
+Import books from Files, iCloud Drive, or any document source on your device. Your books and reading progress are stored locally and privately on your device.
+
+Download DarkReader today and rediscover the joy of focused, distraction-free reading.
+
