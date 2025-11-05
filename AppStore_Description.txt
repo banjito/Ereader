@@ -1,4 +1,4 @@
-APP NAME: DarkReader
+APP NAME: TrueReader
 
 SUBTITLE (Max 30 characters):
 Minimalist Dark Mode E-Reader
@@ -6,9 +6,9 @@ Minimalist Dark Mode E-Reader
 DESCRIPTION:
 =========================================
 
-DarkReader - A Minimalist Dark Mode E-Reader for iOS
+TrueReader - A Minimalist Dark Mode E-Reader for iOS
 
-Read your favorite books in a beautiful dark interface designed for comfortable reading. DarkReader is a simple, elegant e-reader that supports multiple file formats and gets out of your way so you can focus on what matters: reading.
+Read your favorite books in a beautiful dark interface designed for comfortable reading. TrueReader is a simple, elegant e-reader that supports multiple file formats and gets out of your way so you can focus on what matters: reading.
 
 FEATURES:
 
@@ -54,5 +54,5 @@ PERFECT FOR:
 
 Import books from Files, iCloud Drive, or any document source on your device. Your books and reading progress are stored locally and privately on your device.
 
-Download DarkReader today and rediscover the joy of focused, distraction-free reading.
+Download TrueReader today and rediscover the joy of focused, distraction-free reading.
 

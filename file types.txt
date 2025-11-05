@@ -1,0 +1,1 @@
+great we also need these file types to be accepted and readable in our reader EPUB, PDF, TXT, CBZ, ZIP, and JPG/PNG folders

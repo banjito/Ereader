@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "DarkReader",
+    "name": "TrueReader",
     "slug": "DarkReader",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "dark",
@@ -15,13 +15,13 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.darkreader.app",
-      "buildNumber": "1",
+      "buildNumber": "2",
       "infoPlist": {
         "UISupportsDocumentBrowser": true,
         "UIFileSharingEnabled": true,
         "LSSupportsOpeningDocumentsInPlace": true,
-        "NSDocumentsFolderUsageDescription": "DarkReader needs access to your documents to import books",
-        "NSPhotoLibraryUsageDescription": "DarkReader needs access to your photos to import image-based books",
+        "NSDocumentsFolderUsageDescription": "TrueReader needs access to your documents to import books",
+        "NSPhotoLibraryUsageDescription": "TrueReader needs access to your photos to import image-based books",
         "ITSAppUsesNonExemptEncryption": false
       }
     },

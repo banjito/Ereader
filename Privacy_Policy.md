@@ -1,18 +1,18 @@
-# Privacy Policy for DarkReader
+# Privacy Policy for TrueReader
 
 **Last Updated:** January 2025
 
 ## Introduction
 
-Your privacy is important to us. This Privacy Policy explains how DarkReader ("we", "our", or "the app") handles your information.
+Your privacy is important to us. This Privacy Policy explains how TrueReader ("we", "our", or "the app") handles your information.
 
 ## TL;DR (Summary)
 
-**DarkReader does not collect, store, transmit, or share any of your personal data. Period.**
+**TrueReader does not collect, store, transmit, or share any of your personal data. Period.**
 
 ## Information Collection and Use
 
-DarkReader is designed with privacy as a core principle. The app:
+TrueReader is designed with privacy as a core principle. The app:
 
 - ❌ Does NOT collect any personal information
 - ❌ Does NOT track your usage or behavior
@@ -23,7 +23,7 @@ DarkReader is designed with privacy as a core principle. The app:
 
 ## Data Storage
 
-All data in DarkReader is stored **locally on your device only**:
+All data in TrueReader is stored **locally on your device only**:
 
 ### Books and Documents
 - Books you import are stored in your device's app storage
@@ -41,23 +41,23 @@ All data in DarkReader is stored **locally on your device only**:
 
 ## Permissions
 
-DarkReader requests the following permissions:
+TrueReader requests the following permissions:
 
 ### Document Access
 - **Purpose:** To allow you to import books (PDF, EPUB, TXT, etc.) from your device
 - **Usage:** Only when you explicitly select files to import
-- **Description shown to users:** "DarkReader needs access to your documents to import books"
+- **Description shown to users:** "TrueReader needs access to your documents to import books"
 
 ### Photo Library Access
 - **Purpose:** To allow you to import image-based books
 - **Usage:** Only when you explicitly select images to import
-- **Description shown to users:** "DarkReader needs access to your photos to import image-based books"
+- **Description shown to users:** "TrueReader needs access to your photos to import image-based books"
 
 These permissions are used **only** when you choose to import files. We never access your files without your explicit action.
 
 ## Third-Party Services
 
-DarkReader does **not** use any third-party services, including:
+TrueReader does **not** use any third-party services, including:
 - No analytics services (e.g., Google Analytics, Firebase)
 - No advertising networks
 - No crash reporting services
@@ -66,7 +66,7 @@ DarkReader does **not** use any third-party services, including:
 
 ## Children's Privacy
 
-DarkReader does not knowingly collect any information from anyone, including children under 13. The app is designed to be safe for users of all ages.
+TrueReader does not knowingly collect any information from anyone, including children under 13. The app is designed to be safe for users of all ages.
 
 ## Data Sharing
 
@@ -82,7 +82,7 @@ If we make changes to this privacy policy, we will update the "Last Updated" dat
 
 ## Open Source
 
-DarkReader is open source. You can review the source code to verify our privacy claims:
+TrueReader is open source. You can review the source code to verify our privacy claims:
 [https://github.com/banjito/Ereader](https://github.com/banjito/Ereader)
 
 ## Your Rights
@@ -117,11 +117,11 @@ This privacy policy complies with:
 **What we track:** Nothing  
 **What we sell:** Nothing  
 
-DarkReader is built on the principle that your reading is private and personal. We don't want your data, and we've built the app to ensure we never have access to it.
+TrueReader is built on the principle that your reading is private and personal. We don't want your data, and we've built the app to ensure we never have access to it.
 
 ---
 
-**DarkReader** - Simple, elegant, distraction-free reading.
+**TrueReader** - Simple, elegant, distraction-free reading.
 
 © 2025 John Chambers
 

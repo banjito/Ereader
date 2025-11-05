@@ -118,6 +118,15 @@ export default function ReaderScreen({ route, navigation }: ReaderScreenProps) {
   const loadPDF = async () => {
     try {
       setLoading(true);
+      
+      // Check if it's a sample book and load demo content as text
+      if (book.uri.startsWith('sample')) {
+        const sampleContent = generateSampleContent(book.title);
+        setPdfData(sampleContent);
+        setLoading(false);
+        return;
+      }
+      
       const base64 = await FileSystem.readAsStringAsync(book.uri, {
         encoding: 'base64',
       });
@@ -134,6 +143,14 @@ export default function ReaderScreen({ route, navigation }: ReaderScreenProps) {
   const loadTXT = async () => {
     try {
       setLoading(true);
+      // Check if it's a sample book and load demo content
+      if (book.uri.startsWith('sample')) {
+        const sampleContent = generateSampleContent(book.title);
+        setPdfData(sampleContent);
+        setLoading(false);
+        return;
+      }
+      
       const content = await FileSystem.readAsStringAsync(book.uri, {
         encoding: 'utf8',
       });
@@ -147,9 +164,34 @@ export default function ReaderScreen({ route, navigation }: ReaderScreenProps) {
     }
   };
 
+  const generateSampleContent = (title: string): string => {
+    const samples: { [key: string]: string } = {
+      'The Art of War': `Chapter One: Laying Plans\n\nSun Tzu said: The art of war is of vital importance to the State. It is a matter of life and death, a road either to safety or to ruin. Hence it is a subject of inquiry which can on no account be neglected.\n\nThe art of war, then, is governed by five constant factors, to be taken into account in one's deliberations, when seeking to determine the conditions obtaining in the field.\n\nThese are: The Moral Law; Heaven; Earth; The Commander; Method and discipline.\n\nThe Moral Law causes the people to be in complete accord with their ruler, so that they will follow him regardless of their lives, undismayed by any danger.\n\nHeaven signifies night and day, cold and heat, times and seasons.\n\nEarth comprises distances, great and small; danger and security; open ground and narrow passes; the chances of life and death.\n\nThe Commander stands for the virtues of wisdom, sincerity, benevolence, courage and strictness.\n\nBy method and discipline are to be understood the marshaling of the army in its proper subdivisions, the graduations of rank among the officers, the maintenance of roads by which supplies may reach the army, and the control of military expenditure.`,
+      
+      'Pride and Prejudice': `Chapter 1\n\nIt is a truth universally acknowledged, that a single man in possession of a good fortune, must be in want of a wife.\n\nHowever little known the feelings or views of such a man may be on his first entering a neighbourhood, this truth is so well fixed in the minds of the surrounding families, that he is considered the rightful property of some one or other of their daughters.\n\n"My dear Mr. Bennet," said his lady to him one day, "have you heard that Netherfield Park is let at last?"\n\nMr. Bennet replied that he had not.\n\n"But it is," returned she; "for Mrs. Long has just been here, and she told me all about it."\n\nMr. Bennet made no answer.\n\n"Do you not want to know who has taken it?" cried his wife impatiently.\n\n"You want to tell me, and I have no objection to hearing it."\n\nThis was invitation enough.\n\n"Why, my dear, you must know, Mrs. Long says that Netherfield is taken by a young man of large fortune from the north of England; that he came down on Monday in a chaise and four to see the place, and was so much delighted with it, that he agreed with Mr. Morris immediately; that he is to take possession before Michaelmas, and some of his servants are to be in the house by the end of next week."`,
+      
+      'Meditations': `Book One\n\nFrom my grandfather Verus I learned good morals and the government of my temper.\n\nFrom the reputation and remembrance of my father, modesty and a manly character.\n\nFrom my mother, piety and beneficence, and abstinence, not only from evil deeds, but even from evil thoughts; and further, simplicity in my way of living, far removed from the habits of the rich.\n\nFrom my great-grandfather, not to have frequented public schools, and to have had good teachers at home, and to know that on such things a man should spend liberally.\n\nFrom my governor, to be neither of the green nor of the blue party at the games in the Circus, nor a partizan either of the Parmularius or the Scutarius at the gladiators' fights; from him too I learned endurance of labour, and to want little, and to work with my own hands, and not to meddle with other people's affairs, and not to be ready to listen to slander.\n\nThe universe is change; our life is what our thoughts make it.`,
+      
+      '1984': `Part One: Chapter 1\n\nIt was a bright cold day in April, and the clocks were striking thirteen. Winston Smith, his chin nuzzled into his breast in an effort to escape the vile wind, slipped quickly through the glass doors of Victory Mansions, though not quickly enough to prevent a swirl of gritty dust from entering along with him.\n\nThe hallway smelt of boiled cabbage and old rag mats. At one end of it a coloured poster, too large for indoor display, had been tacked to the wall. It depicted simply an enormous face, more than a metre wide: the face of a man of about forty-five, with a heavy black moustache and ruggedly handsome features.\n\nWinston made for the stairs. It was no use trying the lift. Even at the best of times it was seldom working, and at present the electric current was cut off during daylight hours. It was part of the economy drive in preparation for Hate Week. The flat was seven flights up, and Winston, who was thirty-nine and had a varicose ulcer above his right ankle, went slowly, resting several times on the way.`,
+      
+      'The Great Gatsby': `Chapter 1\n\nIn my younger and more vulnerable years my father gave me some advice that I've been turning over in my mind ever since.\n\n"Whenever you feel like criticizing any one," he told me, "just remember that all the people in this world haven't had the advantages that you've had."\n\nHe didn't say any more, but we've always been unusually communicative in a reserved way, and I understood that he meant a great deal more than that. In consequence, I'm inclined to reserve all judgments, a habit that has opened up many curious natures to me and also made me the victim of not a few veteran bores.\n\nThe abnormal mind is quick to detect and attach itself to this quality when it appears in a normal person, and so it came about that in college I was unjustly accused of being a politician, because I was privy to the secret griefs of wild, unknown men. Most of the confidences were unsought—frequently I have feigned sleep, preoccupation, or a hostile levity when I realized by some unmistakable sign that an intimate revelation was quivering on the horizon.`
+    };
+    
+    return samples[title] || `This is sample content for ${title}.\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\n\nUt enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\n\nDuis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.`;
+  };
+
   const loadEPUB = async () => {
     try {
       setLoading(true);
+      
+      // Check if it's a sample book and load demo content
+      if (book.uri.startsWith('sample')) {
+        const sampleContent = generateSampleContent(book.title);
+        setPdfData(sampleContent);
+        setLoading(false);
+        return;
+      }
+      
       const base64 = await FileSystem.readAsStringAsync(book.uri, {
         encoding: 'base64',
       });
@@ -291,7 +333,7 @@ export default function ReaderScreen({ route, navigation }: ReaderScreenProps) {
 
   const handleLeftTap = () => {
     // Go to previous page
-    if (isPDF || isTXT || isEPUB) {
+    if ((isPDF && !book.uri.startsWith('sample')) || isTXT || isEPUB || book.uri.startsWith('sample')) {
       webViewRef.current?.injectJavaScript(`
         if (window.pdfCurrentPage > 1) {
           window.pdfCurrentPage--;
@@ -311,7 +353,7 @@ export default function ReaderScreen({ route, navigation }: ReaderScreenProps) {
 
   const handleRightTap = () => {
     // Go to next page
-    if (isPDF || isTXT || isEPUB) {
+    if ((isPDF && !book.uri.startsWith('sample')) || isTXT || isEPUB || book.uri.startsWith('sample')) {
       webViewRef.current?.injectJavaScript(`
         if (window.pdfCurrentPage < window.pdfTotalPages) {
           window.pdfCurrentPage++;
@@ -579,7 +621,7 @@ export default function ReaderScreen({ route, navigation }: ReaderScreenProps) {
             <ActivityIndicator size="large" color="#FFFFFF" />
             <Text style={styles.loadingText}>Loading book...</Text>
           </View>
-        ) : isPDF ? (
+        ) : (isPDF && !book.uri.startsWith('sample')) ? (
           pdfData ? (
           <>
             <WebView
@@ -723,7 +765,7 @@ export default function ReaderScreen({ route, navigation }: ReaderScreenProps) {
               </Text>
             </View>
           )
-        ) : (isTXT || isEPUB) ? (
+        ) : (isTXT || isEPUB || book.uri.startsWith('sample')) ? (
           pdfData ? (
             <>
               <WebView

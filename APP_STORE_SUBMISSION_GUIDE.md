@@ -2,7 +2,7 @@
 
 ## ✅ Documents Created
 
-All documents are in your DarkReader folder:
+All documents are in your TrueReader folder:
 
 1. **AppStore_Promotional_Text.txt** - Copy/paste into Promotional Text field
 2. **AppStore_Description.txt** - Copy/paste into Description field  
@@ -16,7 +16,7 @@ All documents are in your DarkReader folder:
 Go to: https://appstoreconnect.apple.com/apps/6754861119/distribution/ios/version/inflight
 
 ### 1. App Information
-- **Name:** DarkReader
+- **Name:** TrueReader
 - **Subtitle:** Minimalist Dark Mode E-Reader
 - **Privacy Policy URL:** (See instructions below)
 - **Category:** 
@@ -85,7 +85,7 @@ You need iPhone screenshots (at least 3):
 
 1. Create files in your repo:
 ```bash
-cd "/Users/cohn/Personal Projects/DarkReader"
+cd "/Users/cohn/Personal Projects/TrueReader"
 mkdir docs
 cp Privacy_Policy.md docs/privacy.md
 cp Support_Page.md docs/support.md

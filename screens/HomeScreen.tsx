@@ -16,6 +16,7 @@ import { StatusBar } from 'expo-status-bar';
 import * as DocumentPicker from 'expo-document-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect } from '@react-navigation/native';
+import { Swipeable } from 'react-native-gesture-handler';
 
 interface Book {
   id: string;
@@ -30,6 +31,49 @@ interface HomeScreenProps {
   navigation: any;
 }
 
+// Sample books for demo/screenshots
+const sampleBooks: Book[] = [
+  {
+    id: '1',
+    title: 'The Art of War',
+    author: 'Sun Tzu',
+    progress: 67,
+    uri: 'sample1.pdf',
+    mimeType: 'application/pdf',
+  },
+  {
+    id: '2',
+    title: 'Pride and Prejudice',
+    author: 'Jane Austen',
+    progress: 34,
+    uri: 'sample2.epub',
+    mimeType: 'application/epub+zip',
+  },
+  {
+    id: '3',
+    title: 'Meditations',
+    author: 'Marcus Aurelius',
+    progress: 89,
+    uri: 'sample3.txt',
+    mimeType: 'text/plain',
+  },
+  {
+    id: '4',
+    title: '1984',
+    author: 'George Orwell',
+    uri: 'sample4.pdf',
+    mimeType: 'application/pdf',
+  },
+  {
+    id: '5',
+    title: 'The Great Gatsby',
+    author: 'F. Scott Fitzgerald',
+    progress: 12,
+    uri: 'sample5.epub',
+    mimeType: 'application/epub+zip',
+  },
+];
+
 export default function HomeScreen({ navigation }: HomeScreenProps) {
   const [books, setBooks] = useState<Book[]>([]);
   const [modalVisible, setModalVisible] = useState(false);
@@ -41,12 +85,37 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
   } | null>(null);
   const [customTitle, setCustomTitle] = useState('');
 
+  // Load books from storage on mount
+  useEffect(() => {
+    loadBooks();
+  }, []);
+
   // Load progress when screen comes into focus
   useFocusEffect(
     useCallback(() => {
       loadAllProgress();
     }, [books])
   );
+
+  const loadBooks = async () => {
+    try {
+      const savedBooks = await AsyncStorage.getItem('books');
+      if (savedBooks) {
+        setBooks(JSON.parse(savedBooks));
+      }
+    } catch (error) {
+      console.error('Error loading books:', error);
+    }
+  };
+
+  const saveBooks = async (newBooks: Book[]) => {
+    try {
+      await AsyncStorage.setItem('books', JSON.stringify(newBooks));
+      setBooks(newBooks);
+    } catch (error) {
+      console.error('Error saving books:', error);
+    }
+  };
 
   const loadAllProgress = async () => {
     const updatedBooks = await Promise.all(
@@ -112,11 +181,33 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
         mimeType: pendingBook.mimeType,
       };
 
-      setBooks((prevBooks) => [newBook, ...prevBooks]);
+      const updatedBooks = [newBook, ...books];
+      saveBooks(updatedBooks);
       setModalVisible(false);
       setPendingBook(null);
       setCustomTitle('');
     }
+  };
+
+  const deleteBook = (bookId: string) => {
+    Alert.alert(
+      'Delete Book',
+      'Are you sure you want to remove this book from your library?',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: () => {
+            const updatedBooks = books.filter((book) => book.id !== bookId);
+            saveBooks(updatedBooks);
+          },
+        },
+      ]
+    );
   };
 
   const handleCancel = () => {
@@ -124,30 +215,44 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
     setPendingBook(null);
     setCustomTitle('');
   };
-  const renderBook = ({ item }: { item: Book }) => (
+  const renderRightActions = (bookId: string) => (
     <TouchableOpacity
-      style={styles.bookCard}
-      onPress={() => {
-        if (item.uri) {
-          navigation.navigate('Reader', { book: item });
-        }
-      }}
+      style={styles.deleteAction}
+      onPress={() => deleteBook(bookId)}
     >
-      <View style={styles.bookInfo}>
-        <Text style={styles.bookTitle}>{item.title}</Text>
-        <Text style={styles.bookAuthor}>{item.author}</Text>
-        {item.progress !== undefined && item.progress > 0 && (
-          <View style={styles.progressContainer}>
-            <View style={styles.progressBarBackground}>
-              <View
-                style={[styles.progressBarFill, { width: `${item.progress}%` }]}
-              />
-            </View>
-            <Text style={styles.progressText}>{item.progress}%</Text>
-          </View>
-        )}
-      </View>
+      <Text style={styles.deleteActionText}>Delete</Text>
     </TouchableOpacity>
+  );
+
+  const renderBook = ({ item }: { item: Book }) => (
+    <Swipeable
+      renderRightActions={() => renderRightActions(item.id)}
+      overshootRight={false}
+    >
+      <TouchableOpacity
+        style={styles.bookCard}
+        onPress={() => {
+          if (item.uri) {
+            navigation.navigate('Reader', { book: item });
+          }
+        }}
+      >
+        <View style={styles.bookInfo}>
+          <Text style={styles.bookTitle}>{item.title}</Text>
+          <Text style={styles.bookAuthor}>{item.author}</Text>
+          {item.progress !== undefined && item.progress > 0 && (
+            <View style={styles.progressContainer}>
+              <View style={styles.progressBarBackground}>
+                <View
+                  style={[styles.progressBarFill, { width: `${item.progress}%` }]}
+                />
+              </View>
+              <Text style={styles.progressText}>{item.progress}%</Text>
+            </View>
+          )}
+        </View>
+      </TouchableOpacity>
+    </Swipeable>
   );
 
   return (
@@ -345,11 +450,25 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#808080',
     borderRadius: 8,
-    padding: 20,
     marginBottom: 16,
+    padding: 20,
   },
   bookInfo: {
     flex: 1,
+  },
+  deleteAction: {
+    backgroundColor: '#FF3B30',
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+    paddingHorizontal: 20,
+    marginBottom: 16,
+    borderTopRightRadius: 8,
+    borderBottomRightRadius: 8,
+  },
+  deleteActionText: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: '600',
   },
   bookTitle: {
     fontSize: 18,

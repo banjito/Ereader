@@ -1,10 +1,10 @@
-# DarkReader
+# TrueReader
 
 > A minimalist dark mode e-reader for iOS
 
 ## Overview
 
-DarkReader is a beautifully simple e-reader designed for iOS that puts your reading experience first. With support for multiple file formats, automatic progress tracking, and a stunning dark interface, DarkReader is perfect for book lovers who value simplicity and elegance.
+TrueReader is a beautifully simple e-reader designed for iOS that puts your reading experience first. With support for multiple file formats, automatic progress tracking, and a stunning dark interface, TrueReader is perfect for book lovers who value simplicity and elegance.
 
 ## Features
 
@@ -51,11 +51,11 @@ Read virtually any document format:
 
 *[Add your app screenshots here for marketing purposes]*
 
-## Why DarkReader?
+## Why TrueReader?
 
-In a world of cluttered, ad-filled reading apps, DarkReader offers something different: **simplicity**. 
+In a world of cluttered, ad-filled reading apps, TrueReader offers something different: **simplicity**. 
 
-We believe reading should be a pure, focused experience. That's why DarkReader:
+We believe reading should be a pure, focused experience. That's why TrueReader:
 - Has no distracting features
 - Doesn't collect your data
 - Doesn't show ads
@@ -64,7 +64,7 @@ We believe reading should be a pure, focused experience. That's why DarkReader:
 
 ## Download
 
-DarkReader is available on the iOS App Store.
+TrueReader is available on the iOS App Store.
 
 [Download on the App Store](#) *(Link will be active after approval)*
 
@@ -74,7 +74,7 @@ DarkReader is available on the iOS App Store.
 
 ## Open Source
 
-DarkReader is open source! View the code, contribute, or report issues:
+TrueReader is open source! View the code, contribute, or report issues:
 
 [GitHub Repository](https://github.com/banjito/Ereader)
 
@@ -88,7 +88,7 @@ Need help? Have feedback?
 ## Press Kit
 
 ### App Information
-- **Name:** DarkReader
+- **Name:** TrueReader
 - **Category:** Books / Productivity
 - **Price:** Free
 - **Version:** 1.0.0
@@ -104,7 +104,7 @@ Need help? Have feedback?
 - No ads or subscriptions
 
 ### Short Description (Twitter-friendly)
-"DarkReader - A minimalist dark mode e-reader for iOS. Read PDFs, EPUBs, and more with beautiful design and zero distractions. No ads, no tracking, just reading. 📚🌙"
+"TrueReader - A minimalist dark mode e-reader for iOS. Read PDFs, EPUBs, and more with beautiful design and zero distractions. No ads, no tracking, just reading. 📚🌙"
 
 ### Contact
 - GitHub: https://github.com/banjito/Ereader
@@ -131,7 +131,7 @@ Need help? Have feedback?
 
 ---
 
-*DarkReader - Simple, elegant, distraction-free reading.*
+*TrueReader - Simple, elegant, distraction-free reading.*
 
 © 2025 John Chambers. All rights reserved.
 

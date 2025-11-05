@@ -1,6 +1,6 @@
-# DarkReader Support
+# TrueReader Support
 
-Welcome to DarkReader support! This page will help you get the most out of your e-reader experience.
+Welcome to TrueReader support! This page will help you get the most out of your e-reader experience.
 
 ## Getting Started
 
@@ -40,7 +40,7 @@ Your reading progress is automatically saved:
 - Works for all file types
 
 ### Chapter Detection (EPUB/TXT)
-DarkReader automatically detects and formats chapter titles:
+TrueReader automatically detects and formats chapter titles:
 - Looks for "Chapter 1", "Part 2", etc.
 - Displays chapters in larger, bold text
 - Centers chapter titles for emphasis
@@ -58,7 +58,7 @@ The entire app uses a dark theme designed for comfortable reading:
 Make sure your EPUB file is not corrupted. Some EPUBs are image-based rather than text-based, which may cause loading issues.
 
 ### Can I change the background color?
-Currently, DarkReader only supports the dark theme (black background with white text).
+Currently, TrueReader only supports the dark theme (black background with white text).
 
 ### Where are my books stored?
 All books and reading progress are stored locally on your device. Nothing is uploaded to the cloud or shared externally.
@@ -66,8 +66,8 @@ All books and reading progress are stored locally on your device. Nothing is upl
 ### Can I organize books into folders?
 Not yet! This feature is planned for a future update.
 
-### Does DarkReader collect my data?
-No! DarkReader does not collect, store, or share any personal data. Your privacy is our priority.
+### Does TrueReader collect my data?
+No! TrueReader does not collect, store, or share any personal data. Your privacy is our priority.
 
 ## Contact & Support
 
@@ -83,7 +83,7 @@ For general support inquiries, you can reach out through the GitHub repository i
 
 ## Privacy
 
-DarkReader is designed with privacy in mind:
+TrueReader is designed with privacy in mind:
 - ✅ No user accounts required
 - ✅ No data collection
 - ✅ No analytics or tracking
@@ -92,7 +92,7 @@ DarkReader is designed with privacy in mind:
 
 ---
 
-**DarkReader** - Simple, elegant, distraction-free reading.
+**TrueReader** - Simple, elegant, distraction-free reading.
 
 *Version 1.0.0*
 
