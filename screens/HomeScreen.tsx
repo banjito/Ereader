@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import {
   View,
   Text,
@@ -31,49 +31,6 @@ interface HomeScreenProps {
   navigation: any;
 }
 
-// Sample books for demo/screenshots
-const sampleBooks: Book[] = [
-  {
-    id: '1',
-    title: 'The Art of War',
-    author: 'Sun Tzu',
-    progress: 67,
-    uri: 'sample1.pdf',
-    mimeType: 'application/pdf',
-  },
-  {
-    id: '2',
-    title: 'Pride and Prejudice',
-    author: 'Jane Austen',
-    progress: 34,
-    uri: 'sample2.epub',
-    mimeType: 'application/epub+zip',
-  },
-  {
-    id: '3',
-    title: 'Meditations',
-    author: 'Marcus Aurelius',
-    progress: 89,
-    uri: 'sample3.txt',
-    mimeType: 'text/plain',
-  },
-  {
-    id: '4',
-    title: '1984',
-    author: 'George Orwell',
-    uri: 'sample4.pdf',
-    mimeType: 'application/pdf',
-  },
-  {
-    id: '5',
-    title: 'The Great Gatsby',
-    author: 'F. Scott Fitzgerald',
-    progress: 12,
-    uri: 'sample5.epub',
-    mimeType: 'application/epub+zip',
-  },
-];
-
 export default function HomeScreen({ navigation }: HomeScreenProps) {
   const [books, setBooks] = useState<Book[]>([]);
   const [modalVisible, setModalVisible] = useState(false);
@@ -85,23 +42,34 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
   } | null>(null);
   const [customTitle, setCustomTitle] = useState('');
 
-  // Load books from storage on mount
-  useEffect(() => {
-    loadBooks();
-  }, []);
-
-  // Load progress when screen comes into focus
+  // Reload books when screen comes into focus (includes initial mount and returning from reader)
   useFocusEffect(
     useCallback(() => {
-      loadAllProgress();
-    }, [books])
+      loadBooks();
+    }, [])
   );
 
   const loadBooks = async () => {
     try {
       const savedBooks = await AsyncStorage.getItem('books');
       if (savedBooks) {
-        setBooks(JSON.parse(savedBooks));
+        const parsedBooks = JSON.parse(savedBooks);
+        // Load progress for each book
+        const booksWithProgress = await Promise.all(
+          parsedBooks.map(async (book: Book) => {
+            try {
+              const saved = await AsyncStorage.getItem(`progress_${book.uri}`);
+              if (saved) {
+                const { percentage } = JSON.parse(saved);
+                return { ...book, progress: Math.round(percentage) };
+              }
+            } catch (error) {
+              console.error('Error loading progress for book:', error);
+            }
+            return book;
+          })
+        );
+        setBooks(booksWithProgress);
       }
     } catch (error) {
       console.error('Error loading books:', error);
@@ -114,25 +82,8 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
       setBooks(newBooks);
     } catch (error) {
       console.error('Error saving books:', error);
+      Alert.alert('Error', 'Failed to save book to library');
     }
-  };
-
-  const loadAllProgress = async () => {
-    const updatedBooks = await Promise.all(
-      books.map(async (book) => {
-        try {
-          const saved = await AsyncStorage.getItem(`progress_${book.uri}`);
-          if (saved) {
-            const { percentage } = JSON.parse(saved);
-            return { ...book, progress: percentage };
-          }
-        } catch (error) {
-          console.error('Error loading progress for book:', error);
-        }
-        return book;
-      })
-    );
-    setBooks(updatedBooks);
   };
 
   const pickDocument = async () => {
