@@ -43,6 +43,7 @@ export default function ReaderScreen({ route, navigation }: ReaderScreenProps) {
   const [loading, setLoading] = useState(true);
   const [images, setImages] = useState<string[]>([]);
   const [imageIndex, setImageIndex] = useState(0);
+  const [initialPage, setInitialPage] = useState(1);
 
   const isPDF = book.mimeType === 'application/pdf' || book.uri.endsWith('.pdf');
   const isEPUB = book.mimeType === 'application/epub+zip' || book.uri.endsWith('.epub');
@@ -54,20 +55,23 @@ export default function ReaderScreen({ route, navigation }: ReaderScreenProps) {
 
   useEffect(() => {
     if (book.uri) {
-      loadProgress();
-      if (isPDF) {
-        loadPDF();
-      } else if (isTXT) {
-        loadTXT();
-      } else if (isEPUB) {
-        loadEPUB();
-      } else if (isCBZ || isZIP) {
-        loadComicArchive();
-      } else if (isImage) {
-        loadSingleImage();
-      } else {
-        setLoading(false);
-      }
+      (async () => {
+        const initialPageValue = await loadProgress();
+        setInitialPage(initialPageValue);
+        if (isPDF) {
+          loadPDF();
+        } else if (isTXT) {
+          loadTXT();
+        } else if (isEPUB) {
+          loadEPUB();
+        } else if (isCBZ || isZIP) {
+          loadComicArchive(initialPageValue);
+        } else if (isImage) {
+          loadSingleImage(initialPageValue);
+        } else {
+          setLoading(false);
+        }
+      })();
     }
   }, [book.uri]);
 
@@ -84,22 +88,12 @@ export default function ReaderScreen({ route, navigation }: ReaderScreenProps) {
       if (saved) {
         const { page } = JSON.parse(saved);
         setCurrentPage(page);
-        // Jump to saved page once content loads (for both PDF and text)
-        if (page > 1 && (isPDF || isTXT || isEPUB)) {
-          setTimeout(() => {
-            webViewRef.current?.injectJavaScript(`
-              window.pdfCurrentPage = ${page};
-              if (window.renderPage) {
-                window.renderPage(${page});
-              }
-              true;
-            `);
-          }, 1500);
-        }
+        return page;
       }
     } catch (error) {
       console.error('Error loading progress:', error);
     }
+    return 1;
   };
 
   const saveProgress = async () => {
@@ -198,15 +192,16 @@ export default function ReaderScreen({ route, navigation }: ReaderScreenProps) {
       
       const zip = await JSZip.loadAsync(base64, { base64: true });
       let textContent = '';
-      
+
       // Find content files - look in common EPUB directories
       const contentFiles: string[] = [];
       const files = Object.keys(zip.files).sort();
+      const debugFiles = [...files]; // for debug
       
       for (const filename of files) {
         // Only process actual content files, skip metadata, images, stylesheets, etc.
         if (
-          /\.(xhtml|html|htm)$/i.test(filename) && 
+          /\.(xhtml|html|htm|xml)$/i.test(filename) &&
           !filename.startsWith('__MACOSX') &&
           !filename.startsWith('META-INF') &&
           !filename.includes('nav.xhtml') &&
@@ -269,22 +264,36 @@ export default function ReaderScreen({ route, navigation }: ReaderScreenProps) {
       setLoading(false);
     } catch (error: any) {
       console.error('Error loading EPUB:', error);
-      Alert.alert('Error Loading EPUB', error?.message || 'Could not read EPUB file');
+      const debugInfo = `Error loading EPUB: ${error?.message || 'Unknown error'}
+
+Files in archive: ${debugFiles.length}
+Content files found: ${contentFiles.length}
+Text content length: ${textContent.length}
+
+All files:
+${debugFiles.join('\n')}
+
+Content files:
+${contentFiles.join('\n')}
+
+Sample text content:
+${textContent.substring(0, 500)}`;
+      setPdfData(debugInfo);
       setLoading(false);
-      setPdfData('');
+      Alert.alert('Error Loading EPUB', error?.message || 'Could not read EPUB file');
     }
   };
 
-  const loadComicArchive = async () => {
+  const loadComicArchive = async (initialPage: number = 1) => {
     try {
       setLoading(true);
       const base64 = await FileSystem.readAsStringAsync(book.uri, {
         encoding: 'base64',
       });
-      
+
       const zip = await JSZip.loadAsync(base64, { base64: true });
       const imageFiles: string[] = [];
-      
+
       // Get all image files from the archive
       const files = Object.keys(zip.files).sort();
       for (const filename of files) {
@@ -298,11 +307,11 @@ export default function ReaderScreen({ route, navigation }: ReaderScreenProps) {
           }
         }
       }
-      
+
       setImages(imageFiles);
       setTotalPages(imageFiles.length);
-      setCurrentPage(1);
-      setImageIndex(0);
+      setCurrentPage(initialPage);
+      setImageIndex(initialPage - 1);
       setLoading(false);
     } catch (error: any) {
       console.error('Error loading comic archive:', error);
@@ -311,7 +320,7 @@ export default function ReaderScreen({ route, navigation }: ReaderScreenProps) {
     }
   };
 
-  const loadSingleImage = async () => {
+  const loadSingleImage = async (initialPage: number = 1) => {
     try {
       setLoading(true);
       const base64 = await FileSystem.readAsStringAsync(book.uri, {
@@ -394,7 +403,7 @@ export default function ReaderScreen({ route, navigation }: ReaderScreenProps) {
   };
 
   // HTML content for displaying text-based files with pagination
-  const getTextReaderHTML = (content: string = '') => {
+  const getTextReaderHTML = (content: string = '', initialPage: number = 1) => {
     // Format content into paragraphs and detect chapter titles
     const paragraphs = content
       .split(/\n\n+/)
@@ -570,7 +579,7 @@ export default function ReaderScreen({ route, navigation }: ReaderScreenProps) {
             };
             
             // Initial render
-            window.renderPage(1);
+            window.renderPage(${initialPage});
           </script>
         </body>
       </html>
@@ -719,7 +728,7 @@ export default function ReaderScreen({ route, navigation }: ReaderScreenProps) {
                             type: 'loaded',
                             totalPages: pdf.numPages
                           }));
-                          window.renderPage(1);
+                          window.renderPage(${initialPage});
                         }).catch(function(error) {
                           console.error('Error loading PDF:', error);
                           document.body.innerHTML = '<div class="loading">Error loading PDF: ' + error.message + '</div>';
@@ -770,7 +779,7 @@ export default function ReaderScreen({ route, navigation }: ReaderScreenProps) {
             <>
               <WebView
                 ref={webViewRef}
-                source={{ html: getTextReaderHTML(pdfData) }}
+                source={{ html: getTextReaderHTML(pdfData, initialPage) }}
                 style={styles.webview}
                 startInLoadingState={true}
                 bounces={false}

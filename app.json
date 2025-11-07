@@ -2,7 +2,7 @@
   "expo": {
     "name": "TrueReader",
     "slug": "DarkReader",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "dark",
@@ -15,14 +15,60 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.darkreader.app",
-      "buildNumber": "2",
+      "buildNumber": "1",
       "infoPlist": {
         "UISupportsDocumentBrowser": true,
         "UIFileSharingEnabled": true,
         "LSSupportsOpeningDocumentsInPlace": true,
         "NSDocumentsFolderUsageDescription": "TrueReader needs access to your documents to import books",
         "NSPhotoLibraryUsageDescription": "TrueReader needs access to your photos to import image-based books",
-        "ITSAppUsesNonExemptEncryption": false
+        "ITSAppUsesNonExemptEncryption": false,
+        "CFBundleDocumentTypes": [
+          {
+            "CFBundleTypeName": "PDF Document",
+            "CFBundleTypeRole": "Viewer",
+            "LSItemContentTypes": ["com.adobe.pdf"],
+            "LSHandlerRank": "Owner"
+          },
+          {
+            "CFBundleTypeName": "EPUB Book",
+            "CFBundleTypeRole": "Viewer",
+            "LSItemContentTypes": ["org.idpf.epub-container", "public.epub"],
+            "LSHandlerRank": "Owner",
+            "CFBundleTypeExtensions": ["epub"]
+          },
+          {
+            "CFBundleTypeName": "Plain Text",
+            "CFBundleTypeRole": "Viewer",
+            "LSItemContentTypes": ["public.plain-text"],
+            "LSHandlerRank": "Owner"
+          },
+          {
+            "CFBundleTypeName": "ZIP Archive",
+            "CFBundleTypeRole": "Viewer",
+            "LSItemContentTypes": ["public.zip-archive"],
+            "LSHandlerRank": "Owner"
+          },
+          {
+            "CFBundleTypeName": "CBZ Comic Book",
+            "CFBundleTypeRole": "Viewer",
+            "LSItemContentTypes": ["public.zip-archive"],
+            "LSHandlerRank": "Owner",
+            "CFBundleTypeExtensions": ["cbz"]
+          },
+          {
+            "CFBundleTypeName": "JPEG Image",
+            "CFBundleTypeRole": "Viewer",
+            "LSItemContentTypes": ["public.jpeg"],
+            "LSHandlerRank": "Owner"
+          },
+          {
+            "CFBundleTypeName": "PNG Image",
+            "CFBundleTypeRole": "Viewer",
+            "LSItemContentTypes": ["public.png"],
+            "LSHandlerRank": "Owner"
+          }
+        ]
       }
     },
     "android": {

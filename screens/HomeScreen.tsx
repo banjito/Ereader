@@ -14,6 +14,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import * as DocumentPicker from 'expo-document-picker';
+import * as FileSystem from 'expo-file-system/legacy';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect } from '@react-navigation/native';
 import { Swipeable } from 'react-native-gesture-handler';
@@ -98,7 +99,7 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
           'application/x-cbr',
           'image/*',
         ],
-        copyToCacheDirectory: true,
+        copyToCacheDirectory: false,
       });
 
       if (!result.canceled && result.assets && result.assets.length > 0) {
@@ -107,10 +108,29 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
         // Extract filename without extension for title
         const fileName = file.name.replace(/\.(pdf|epub|txt|cbz|cbr|zip|jpg|jpeg|png)$/i, '');
         
-        // Store pending book and show modal
+        // Create documents directory if it doesn't exist
+        const documentsDir = `${FileSystem.documentDirectory}books/`;
+        const dirInfo = await FileSystem.getInfoAsync(documentsDir);
+        if (!dirInfo.exists) {
+          await FileSystem.makeDirectoryAsync(documentsDir, { intermediates: true });
+        }
+        
+        // Generate unique filename with timestamp to avoid conflicts
+        const timestamp = Date.now();
+        const fileExtension = file.name.split('.').pop() || '';
+        const savedFileName = `${timestamp}_${file.name}`;
+        const savedUri = `${documentsDir}${savedFileName}`;
+        
+        // Copy file to permanent document directory
+        await FileSystem.copyAsync({
+          from: file.uri,
+          to: savedUri,
+        });
+        
+        // Store pending book with permanent URI
         setPendingBook({
           fileName: fileName,
-          uri: file.uri,
+          uri: savedUri,
           mimeType: file.mimeType || '',
         });
         setCustomTitle(fileName); // Pre-fill with filename
@@ -140,7 +160,7 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
     }
   };
 
-  const deleteBook = (bookId: string) => {
+  const deleteBook = async (bookId: string) => {
     Alert.alert(
       'Delete Book',
       'Are you sure you want to remove this book from your library?',
@@ -152,7 +172,24 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
         {
           text: 'Delete',
           style: 'destructive',
-          onPress: () => {
+          onPress: async () => {
+            const bookToDelete = books.find((book) => book.id === bookId);
+            
+            // Delete the file from document directory if it exists
+            if (bookToDelete?.uri) {
+              try {
+                const fileInfo = await FileSystem.getInfoAsync(bookToDelete.uri);
+                if (fileInfo.exists) {
+                  await FileSystem.deleteAsync(bookToDelete.uri, { idempotent: true });
+                }
+                // Also delete progress data
+                await AsyncStorage.removeItem(`progress_${bookToDelete.uri}`);
+              } catch (error) {
+                console.error('Error deleting file:', error);
+                // Continue with removing from list even if file deletion fails
+              }
+            }
+            
             const updatedBooks = books.filter((book) => book.id !== bookId);
             saveBooks(updatedBooks);
           },
