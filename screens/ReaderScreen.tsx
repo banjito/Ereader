@@ -568,7 +568,8 @@ ${textContent.substring(0, 500)}`;
             window.renderPage = function(pageNum) {
               const pageWidth = window.innerWidth;
               container.scrollLeft = (pageNum - 1) * pageWidth;
-              
+              window.pdfCurrentPage = pageNum;
+
               if (window.ReactNativeWebView) {
                 window.ReactNativeWebView.postMessage(JSON.stringify({
                   type: 'pageChanged',
@@ -680,7 +681,7 @@ ${textContent.substring(0, 500)}`;
                       </div>
                       <script>
                         let pdfDoc = null;
-                        window.pdfCurrentPage = 1;
+            window.pdfCurrentPage = ${initialPage};
                         window.pdfTotalPages = 0;
                         const canvas = document.getElementById('pdf-canvas');
                         const ctx = canvas.getContext('2d');
@@ -704,13 +705,14 @@ ${textContent.substring(0, 500)}`;
                               viewport: scaledViewport
                             };
                             
-                            page.render(renderContext).promise.then(function() {
-                              window.ReactNativeWebView.postMessage(JSON.stringify({
-                                type: 'pageChanged',
-                                currentPage: pageNum,
-                                totalPages: window.pdfTotalPages
-                              }));
-                            });
+                             page.render(renderContext).promise.then(function() {
+                               window.pdfCurrentPage = pageNum;
+                               window.ReactNativeWebView.postMessage(JSON.stringify({
+                                 type: 'pageChanged',
+                                 currentPage: pageNum,
+                                 totalPages: window.pdfTotalPages
+                               }));
+                             });
                           });
                         };
                         
